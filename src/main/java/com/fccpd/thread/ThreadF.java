@@ -1,18 +1,26 @@
 package com.fccpd.thread;
 
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
-import static com.fccpd.thread.ThreadUtil.*;
+import static com.fccpd.thread.ThreadUtil.partitionDate;
+import static com.fccpd.thread.ThreadUtil.timeCalculatorToComputePrimeFactorsMethod;
 
-public class ThreadDE {
+public class ThreadF {
     public static void main(String[] args) {
-        int[] values = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+
+        int valuesSize = Integer.parseInt(args[0]);
+        int threadNumber = Integer.parseInt(args[1]);
+
+        int[] values = _randomArray(valuesSize);
 
         List<Integer> valuesAsList = _arrayToList(values);
 
-        List<List<Integer>> listPartition = partitionDate(valuesAsList, 3);
+        List<List<Integer>> listPartition = partitionDate(valuesAsList, valuesSize
+        / threadNumber);
 
         for (List<Integer> list : listPartition) {
             Integer[] listArray = _listToArray(list);
@@ -27,6 +35,7 @@ public class ThreadDE {
         for(int value: values) {
             originalList.add(value);
         }
+
         return originalList;
     }
 
@@ -34,7 +43,19 @@ public class ThreadDE {
         Integer[] listArray = new Integer[list.size()];
 
         list.toArray(listArray);
+
         return listArray;
+    }
+
+    private static int[] _randomArray(int size) {
+        int[] array = new int[size];
+        Random r = new Random();
+
+        for (int i = 0; i < size; i++) {
+            array[i] = r.nextInt();
+        }
+
+        return array;
     }
 
     private static void _runThread(Integer[] listArray) {
@@ -43,18 +64,8 @@ public class ThreadDE {
             public void run() {
                 System.out.println("Thread " +
                         Thread.currentThread().getId() + " time: " +
-                            _timeCalculatorToComputePrimeFactorsMethod(listArray));
+                        timeCalculatorToComputePrimeFactorsMethod(listArray));
             }
         }).start();
-    }
-
-    private static long _timeCalculatorToComputePrimeFactorsMethod(Integer[] values) {
-        long startTime = System.nanoTime();
-
-        computePrimeFactors(values);
-
-        long finalTime = System.nanoTime();
-
-        return finalTime - startTime;
     }
 }

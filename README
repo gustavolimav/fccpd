@@ -1,0 +1,2 @@
+ThreadF -> To run that file you will need to pass two parameters: the first is the size of the array
+            and the second is the number of threads to use.

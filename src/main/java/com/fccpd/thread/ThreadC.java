@@ -2,7 +2,7 @@ package com.fccpd.thread;
 
 public class ThreadC {
     public static void main(String[] args) {
-        Long time = timeCalculatorToThreadCreation();
+        long time = timeCalculatorToThreadCreation();
 
         System.out.println("Thread creation time: " + time);
     }
