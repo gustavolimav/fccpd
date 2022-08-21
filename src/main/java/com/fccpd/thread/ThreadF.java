@@ -28,6 +28,8 @@ public class ThreadF {
             _runThread(listArray);
         }
 
+        // TODO: wait for all threads to finish
+
         long finalTime = System.currentTimeMillis();
 
         System.out.println("Values size: " + valuesSize + " Thread number: " + threadNumber + " Time: " + (finalTime - initialTime));
