@@ -1,6 +1,5 @@
 package com.fccpd.thread;
 
-import static com.fccpd.thread.ThreadUtil.computePrimeFactors;
 import static com.fccpd.thread.ThreadUtil.timeCalculatorToComputePrimeFactorsMethod;
 
 public class ThreadB {
