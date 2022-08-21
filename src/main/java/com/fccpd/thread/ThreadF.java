@@ -10,6 +10,7 @@ import static com.fccpd.thread.ThreadUtil.timeCalculatorToComputePrimeFactorsMet
 
 public class ThreadF {
     public static void main(String[] args) {
+        long initialTime = System.currentTimeMillis();
 
         int valuesSize = Integer.parseInt(args[0]);
         int threadNumber = Integer.parseInt(args[1]);
@@ -26,6 +27,10 @@ public class ThreadF {
 
             _runThread(listArray);
         }
+
+        long finalTime = System.currentTimeMillis();
+
+        System.out.println("Values size: " + valuesSize + " Thread number: " + threadNumber + " Time: " + (finalTime - initialTime));
     }
 
     private static List<Integer> _arrayToList(int[] values) {
