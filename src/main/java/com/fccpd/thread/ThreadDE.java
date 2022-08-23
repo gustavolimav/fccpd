@@ -3,15 +3,13 @@ package com.fccpd.thread;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.fccpd.thread.ThreadUtil.*;
-
 public class ThreadDE {
     public static void main(String[] args) {
         int[] values = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 
         List<Integer> valuesAsList = _arrayToList(values);
 
-        List<List<Integer>> listPartition = partitionDate(valuesAsList, 3);
+        List<List<Integer>> listPartition = ThreadUtil.partitionDate(valuesAsList, 3);
 
         for (List<Integer> list : listPartition) {
             Integer[] listArray = _listToArray(list);
@@ -50,7 +48,7 @@ public class ThreadDE {
     private static long _timeCalculatorToComputePrimeFactorsMethod(Integer[] values) {
         long startTime = System.nanoTime();
 
-        computePrimeFactors(values);
+        ThreadUtil.computePrimeFactors(values);
 
         long finalTime = System.nanoTime();
 

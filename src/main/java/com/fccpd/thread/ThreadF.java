@@ -5,9 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static com.fccpd.thread.ThreadUtil.partitionDate;
-import static com.fccpd.thread.ThreadUtil.timeCalculatorToComputePrimeFactorsMethod;
-
 public class ThreadF {
     public static void main(String[] args) {
         long initialTime = System.currentTimeMillis();
@@ -19,7 +16,7 @@ public class ThreadF {
 
         List<Integer> valuesAsList = _arrayToList(values);
 
-        List<List<Integer>> listPartition = partitionDate(valuesAsList, valuesSize
+        List<List<Integer>> listPartition = ThreadUtil.partitionDate(valuesAsList, valuesSize
         / threadNumber);
 
         for (List<Integer> list : listPartition) {
@@ -70,7 +67,7 @@ public class ThreadF {
             public void run() {
                 System.out.println("Thread " +
                         Thread.currentThread().getId() + " time: " +
-                        timeCalculatorToComputePrimeFactorsMethod(listArray));
+                        ThreadUtil.timeCalculatorToComputePrimeFactorsMethod(listArray));
             }
         }).start();
     }
