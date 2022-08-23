@@ -1,25 +1,24 @@
 package com.fccpd.thread;
 
 public class ThreadC {
-    public static void main(String[] args) {
-        long time = timeCalculatorToThreadCreation();
+    public static void main(String[] args) throws InterruptedException {
 
-        System.out.println("Thread creation time: " + time);
+        System.out.println("Thread creation time: " + timeCalculatorToThreadCreation());
     }
 
-    private static void runThread() {
-        new Thread(new Runnable() {
+    private static long timeCalculatorToThreadCreation() throws InterruptedException {
+        long startTime = System.nanoTime();
+
+        Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
 
             }
-        }).start();
-    }
+        });
 
-    private static long timeCalculatorToThreadCreation() {
-        long startTime = System.nanoTime();
+        thread.start();
 
-        runThread();
+        thread.join();
 
         long finalTime = System.nanoTime();
 
