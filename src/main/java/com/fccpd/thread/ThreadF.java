@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 public class ThreadF {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         long initialTime = System.currentTimeMillis();
 
         int valuesSize = Integer.parseInt(args[0]);
@@ -19,13 +19,21 @@ public class ThreadF {
         List<List<Integer>> listPartition = ThreadUtil.partitionDate(valuesAsList, valuesSize
         / threadNumber);
 
+        ArrayList<Thread> threads = new ArrayList<Thread>();
+
         for (List<Integer> list : listPartition) {
             Integer[] listArray = _listToArray(list);
 
-            _runThread(listArray);
+            threads.add(_createThread(listArray));
         }
 
-        // TODO: wait for all threads to finish
+        for(Thread thread : threads) {
+            thread.start();
+        }
+
+        for(Thread thread : threads) {
+            thread.join();
+        }
 
         long finalTime = System.currentTimeMillis();
 
@@ -61,14 +69,12 @@ public class ThreadF {
         return array;
     }
 
-    private static void _runThread(Integer[] listArray) {
-        new Thread(new Runnable() {
+    private static Thread _createThread(Integer[] listArray) {
+        return new Thread(new Runnable() {
             @Override
             public void run() {
-                System.out.println("Thread " +
-                        Thread.currentThread().getId() + " time: " +
-                        ThreadUtil.timeCalculatorToComputePrimeFactorsMethod(listArray));
+                        ThreadUtil.timeCalculatorToComputePrimeFactorsMethod(listArray);
             }
-        }).start();
+        });
     }
 }
