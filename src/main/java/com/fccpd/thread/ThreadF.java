@@ -2,30 +2,23 @@ package com.fccpd.thread;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
 public class ThreadF {
-    public static void main(String[] args) throws InterruptedException {
-        long initialTime = System.currentTimeMillis();
 
-        int valuesSize = Integer.parseInt(args[0]);
-        int threadNumber = Integer.parseInt(args[1]);
+    public HashMap<String, Integer> multipleThreads(int valuesSize, int threadNumber) throws InterruptedException {
+        long initialTime = System.currentTimeMillis();
 
         int[] values = _randomArray(valuesSize);
 
         List<Integer> valuesAsList = _arrayToList(values);
 
-        List<List<Integer>> listPartition = ThreadUtil.partitionDate(valuesAsList, valuesSize
-        / threadNumber);
+        List<List<Integer>> listPartition = ThreadUtil.partitionDate(
+                valuesAsList, valuesSize / threadNumber);
 
-        ArrayList<Thread> threads = new ArrayList<Thread>();
-
-        for (List<Integer> list : listPartition) {
-            Integer[] listArray = _listToArray(list);
-
-            threads.add(_createThread(listArray));
-        }
+        ArrayList<Thread> threads = getThreads(listPartition);
 
         for(Thread thread : threads) {
             thread.start();
@@ -37,11 +30,29 @@ public class ThreadF {
 
         long finalTime = System.currentTimeMillis();
 
-        System.out.println("Values size: " + valuesSize + " Thread number: " + threadNumber + " Time: " + (finalTime - initialTime));
+        HashMap<String, Integer> hashMap = new HashMap<>();
+
+        hashMap.put("size", valuesSize);
+        hashMap.put("threadNumber", threadNumber);
+        hashMap.put("time", (int) (finalTime - initialTime));
+
+        return hashMap;
     }
 
-    private static List<Integer> _arrayToList(int[] values) {
-        List<Integer> originalList = new ArrayList<Integer>();
+    private ArrayList<Thread> getThreads(List<List<Integer>> listPartition) {
+        ArrayList<Thread> threads = new ArrayList<>();
+
+        for (List<Integer> list : listPartition) {
+            Integer[] listArray = _listToArray(list);
+
+            threads.add(_createThread(listArray));
+        }
+
+        return threads;
+    }
+
+    private List<Integer> _arrayToList(int[] values) {
+        List<Integer> originalList = new ArrayList<>();
 
         for(int value: values) {
             originalList.add(value);
@@ -50,7 +61,7 @@ public class ThreadF {
         return originalList;
     }
 
-    private static Integer[] _listToArray(List<Integer> list) {
+    private Integer[] _listToArray(List<Integer> list) {
         Integer[] listArray = new Integer[list.size()];
 
         list.toArray(listArray);
@@ -58,7 +69,7 @@ public class ThreadF {
         return listArray;
     }
 
-    private static int[] _randomArray(int size) {
+    private int[] _randomArray(int size) {
         int[] array = new int[size];
         Random r = new Random();
 
@@ -69,12 +80,7 @@ public class ThreadF {
         return array;
     }
 
-    private static Thread _createThread(Integer[] listArray) {
-        return new Thread(new Runnable() {
-            @Override
-            public void run() {
-                        ThreadUtil.timeCalculatorToComputePrimeFactorsMethod(listArray);
-            }
-        });
+    private Thread _createThread(Integer[] listArray) {
+        return new Thread(() -> ThreadUtil.timeCalculatorToComputePrimeFactorsMethod(listArray));
     }
 }
